@@ -26,7 +26,7 @@
           <div slot="header">
             <strong>Update/Delete</strong> Product
           </div>
-          <b-form action="/#/product">
+          <b-form action="/product">
           <b-form-group
             description="The products full name."
             label="Product Name"

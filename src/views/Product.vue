@@ -9,7 +9,7 @@
             </div>
             
             <b-list-group v-for="post of posts" :key="post._id">
-              <b-list-group-item :href="`/#/product/${post._id}`"  class="flex-column align-items-start">
+              <b-list-group-item :href="`product/${post._id}`"  class="flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
                   <h5 class="mb-1">{{post.product_name}}</h5>
                   <small>{{post.price}}</small>
@@ -27,7 +27,7 @@
           <div slot="header">
             <strong>Create</strong> Product
           </div>
-          <b-form :action="link">
+          <b-form action="product">
           <b-form-group
             description="The products full name."
             label="Product Name"
