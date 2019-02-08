@@ -11,7 +11,7 @@ export default {
     },
     {
       title: true,
-      name: 'Theme',
+      name: 'APIs',
       class: '',
       wrapper: {
         element: '',
@@ -19,14 +19,24 @@ export default {
       }
     },
     {
-      name: 'Colors',
-      url: '/theme/colors',
-      icon: 'icon-drop'
+      name: 'Products',
+      url: '/product',
+      icon: 'cui-cart'
     },
     {
-      name: 'Typography',
-      url: '/theme/typography',
-      icon: 'icon-pencil'
+      name: 'Sites',
+      url: '/sites',
+      icon: 'icon-globe'
+    },
+    {
+      name: 'Users',
+      url: '/users',
+      icon: 'icon-globe'
+    },
+    {
+      name: 'Inventories',
+      url: '/inventories',
+      icon: 'icon-globe'
     },
     {
       title: true,

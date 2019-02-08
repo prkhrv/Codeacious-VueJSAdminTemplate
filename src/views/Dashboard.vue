@@ -1,5 +1,5 @@
 <template>
-  <a href="product">Product</a>
+  
 </template>
 
 <script>

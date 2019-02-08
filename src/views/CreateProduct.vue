@@ -1,39 +1,22 @@
 <template>
   <b-row>
       <b-col md="12">
-        <b-card
-            header-tag="header"
-            footer-tag="footer">
-            <div slot="header">
-              <i class="fa fa-align-justify"></i><strong>Product</strong>
-            </div>
-            <b-list-group>
-              <b-list-group-item href="#"  class="flex-column align-items-start">
-                <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1">{{posts.product_name}}</h5>
-                  <small>{{posts.price}}</small>
-                </div>
-                <p class="mb-1">
-                  {{posts.long_description}}
-                </p>
-                <small>{{posts.short_description}}</small>
-              </b-list-group-item>
-            </b-list-group>
-          </b-card>
+
+
 
 
         <b-card>
           <div slot="header">
-            <strong>Update/Delete</strong> Product
+            <strong>Create</strong> Product
           </div>
-          <b-form v-on:submit.prevent="updateData">
+          <b-form action="product" v-on:submit.prevent="sendData">
           <b-form-group
             description="The products full name."
             label="Product Name"
             label-for="basicName"
             :label-cols="3"
             :horizontal="true">
-            <b-form-input id="basicName" v-model="posts.product_name" :value="posts.product_name" type="text" autocomplete="name"></b-form-input>
+            <b-form-input id="basicName" v-model="input.product_name" type="text" autocomplete="name"></b-form-input>
           </b-form-group>
           <b-form-group
             description="The price of the product"
@@ -41,7 +24,7 @@
             label-for="basicText"
             :label-cols="3"
             :horizontal="true">
-            <b-form-input id="basicText" v-model="posts.price" :value="posts.price" type="text"></b-form-input>
+            <b-form-input id="basicText" v-model="input.price" type="text"></b-form-input>
           </b-form-group>
           <b-form-group
             description="A short description of the product"
@@ -49,7 +32,7 @@
             label-for="basicText"
             :label-cols="3"
             :horizontal="true">
-            <b-form-input id="basicText" v-model="posts.short_description" :value="posts.short_description" type="text"></b-form-input>
+            <b-form-input id="basicText" v-model="input.short_description" type="text"></b-form-input>
           </b-form-group>
 
           <b-form-group
@@ -57,7 +40,7 @@
             label-for="basicTextarea"
             :label-cols="3"
             :horizontal="true">
-            <b-form-input v-model="posts.long_description" :value="posts.long_description" id="basicTextarea" :textarea="true" :rows="9" placeholder="Detailed Description of the Product"></b-form-input>
+            <b-form-input v-model="input.long_description" id="basicTextarea" :textarea="true" :rows="9" placeholder="Detailed Description of the Product"></b-form-input>
           </b-form-group>
 
 
@@ -67,7 +50,7 @@
             :label-cols="3"
             :horizontal="true">
             <b-form-select id="basicMultiSelect"
-              v-model="posts.search_keywords"
+              v-model="input.keywords"
               :plain="true"
               :multiple="true"
               :options="[
@@ -98,7 +81,7 @@
             :label-cols="3"
             :horizontal="true">
             <b-form-select id="basicMultiSelect"
-              v-model="posts.keywords"
+              v-model="input.search_keywords"
               :plain="true"
               :multiple="true"
               :options="[
@@ -124,9 +107,10 @@
             </b-form-select>
           </b-form-group>
 
-          <div slot="footer">
-            <b-button type="submit" size="sm" variant="primary"><i class="fa fa-dot-circle-o"></i> Submit</b-button>
-            <b-button v-on:click="delData()" type="submit" size="sm" variant="danger"><i class="fa fa-ban"></i> Reset</b-button>
+           <div slot="footer">
+              <b-button  type="submit" size="sm" variant="primary"><i class="fa fa-dot-circle-o"></i> Submit</b-button>
+
+
           </div>
           </b-form>
         </b-card>
@@ -146,8 +130,8 @@
   import CalloutChartExample from './dashboard/CalloutChartExample'
 
   var link = window.location.href
-  var key = link.split("product/",24).pop()
-  console.log(key)
+  var key = link.split("8080",24).pop()
+
 
 export default {
   name: 'dashboard',
@@ -164,20 +148,20 @@ export default {
   data: function () {
     return {
       selected: 'Month',
-      // posts: [],
+      posts: [],
+      resp: [],
       errors: [],
-      posts: {
+      input: {
                     product_name: "",
                     subtitle: "",
                     short_description: "",
                     long_description: "",
                     price: "",
-                    keywords: "",
-                    search_keywords:"",
-                    _id: key
+                    keywords: [],
+                    search_keywords:[]
 
                 },
-                response: "",
+                key: "",
       tableItems: [
         {
           avatar: { url: 'img/avatars/1.jpg', status: 'success' },
@@ -254,7 +238,7 @@ export default {
     }
   },
   async mounted() {
-    axios.get(`https://selacious-cloud-siteapi.herokuapp.com/products/${key}`)
+    axios.get("https://selacious-cloud-siteapi.herokuapp.com/products")
     .then(response => {this.posts = response.data})
   },
   methods: {
@@ -274,20 +258,14 @@ export default {
     flag (value) {
       return 'flag-icon flag-icon-' + value
     },
-    async updateData() {
-      axios.put(`https://selacious-cloud-siteapi.herokuapp.com/products/${key}`,this.posts).then((response) =>{
-        console.log(response);
-        this.$router.push("/product");
-      });
-    },
-    async delData() {
-                axios({ method: "DELETE", "url": `https://selacious-cloud-siteapi.herokuapp.com/products/${key}`, "data": this.posts, "headers": { 'Content-Type': 'application/x-www-form-urlencoded' } }).then(result => {
-                    this.posts = result.data;
-                    this.$router.push("/product");
-                }, error => {
-                    console.error(error);
-                });
-    }
+
+      async sendData() {
+            axios.post("https://selacious-cloud-siteapi.herokuapp.com/products/",this.input).then((response) =>{
+              console.log(response);
+              this.$router.push("product");
+            });
+      }
+
   }
 }
 

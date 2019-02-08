@@ -8,6 +8,8 @@ const DefaultContainer = () => import('@/containers/DefaultContainer')
 const Dashboard = () => import('@/views/Dashboard')
 const Product = () => import('@/views/Product')
 const ProductO = () => import('@/views/ProductO')
+const Sites = () => import('@/views/Sites')
+const CreateProduct = () => import('@/views/CreateProduct')
 
 
 
@@ -81,23 +83,46 @@ export default new Router({
         {
           path: 'dashboard',
           name: 'Dashboard',
-          component: Dashboard
-        },
-        {
-          path: 'product',
-          name: 'Product',
-          component: Product,
-        },
-        {
-          path: 'product?',
-          name: 'Product',
-          component: Product,
-        },
-          {
-            path: 'product/:prodId',
-            name: 'product/:proId',
-            component: ProductO
+          component: {
+            render (c) { return c('router-view') }
           },
+          children:[
+            {
+              path:'',
+              component: Dashboard
+            },
+            {
+              path:'/product',
+              name:'Product',
+              component: {
+                render (c) { return c('router-view') }
+              },
+              children:[
+                {
+                  path:'',
+                  component: Product,
+                },
+                {
+                  path: '/product/:prodId',
+                  name: ':proId',
+                  component: ProductO
+                },
+                {
+                  path:'/createproduct',
+                  name: 'Create Product',
+                  component: CreateProduct
+                },
+              ]
+            },
+
+            {
+              path: '/sites',
+              name: 'Sites',
+              component: Sites
+            },
+          ]
+        },
+
         {
           path: 'theme',
           redirect: '/theme/colors',

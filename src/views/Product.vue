@@ -7,7 +7,7 @@
             <div slot="header">
               <i class="fa fa-align-justify"></i><strong>Product List </strong> <small> Click to update/delete</small>
             </div>
-            
+
             <b-list-group v-for="post of posts" :key="post._id">
               <b-list-group-item :href="`product/${post._id}`"  class="flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
@@ -22,8 +22,13 @@
             </b-list-group>
           </b-card>
 
+          <router-link :to="{ name: 'Create Product' }">
+            <b-button type="submit" value="Add Product" variant="outline-dark"> Add Product </b-button>
+          </router-link>
 
-        <b-card>
+
+
+        <!-- <b-card>
           <div slot="header">
             <strong>Create</strong> Product
           </div>
@@ -52,7 +57,7 @@
             :horizontal="true">
             <b-form-input id="basicText" v-model="input.short_description" type="text"></b-form-input>
           </b-form-group>
-          
+
           <b-form-group
             label="Detailed Description"
             label-for="basicTextarea"
@@ -60,8 +65,8 @@
             :horizontal="true">
             <b-form-input v-model="input.long_description" id="basicTextarea" :textarea="true" :rows="9" placeholder="Detailed Description of the Product"></b-form-input>
           </b-form-group>
-          
-          
+
+
           <b-form-group
             label="Keywords"
             label-for="basicMultiSelect"
@@ -123,13 +128,13 @@
                 }]"
               :value="[null,'c']">
             </b-form-select>
-          </b-form-group>
-          
-          <div slot="footer">
+          </b-form-group> -->
+
+          <!-- <div slot="footer">
               <b-button v-on:click="sendData()" type="submit" size="sm" variant="primary"><i class="fa fa-dot-circle-o"></i> Submit</b-button>
-            
-            
-          </div>
+
+
+          </div> -->
           </b-form>
         </b-card>
         </b-col>
@@ -174,8 +179,8 @@ export default {
                     short_description: "",
                     long_description: "",
                     price: "",
-                    keywords: "",
-                    search_keywords:""
+                    keywords: [],
+                    search_keywords:[]
 
                 },
                 key: "",
@@ -255,7 +260,7 @@ export default {
     }
   },
   async mounted() {
-    axios.get("http://localhost:3000/products")
+    axios.get("https://selacious-cloud-siteapi.herokuapp.com/products")
     .then(response => {this.posts = response.data})
   },
   methods: {
@@ -276,8 +281,8 @@ export default {
       return 'flag-icon flag-icon-' + value
     },
     async sendData() {
-                axios({ method: "POST", "url": "http://localhost:3000/products", "data": this.input, "headers": { "content-type": "application/json" } }).then(response => {
-                    
+                axios({ method: "POST", "url": "https://selacious-cloud-siteapi.herokuapp.com/products/", "data": this.input, "headers": { 'Content-Type': 'application/x-www-form-urlencoded' } }).then(response => {
+
                 }, error => {
                     console.error(error);
                 });
