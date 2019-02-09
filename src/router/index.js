@@ -8,7 +8,9 @@ const DefaultContainer = () => import('@/containers/DefaultContainer')
 const Dashboard = () => import('@/views/Dashboard')
 const Product = () => import('@/views/Product')
 const ProductO = () => import('@/views/ProductO')
+const SiteO = () => import('@/views/SitesO')
 const Sites = () => import('@/views/Sites')
+const CreateSite = () => import('@/views/CreateSite')
 const CreateProduct = () => import('@/views/CreateProduct')
 
 
@@ -93,7 +95,7 @@ export default new Router({
             },
             {
               path:'/product',
-              name:'Product',
+              meta: { label: 'Products'},
               component: {
                 render (c) { return c('router-view') }
               },
@@ -104,7 +106,8 @@ export default new Router({
                 },
                 {
                   path: '/product/:prodId',
-                  name: ':proId',
+                  meta: { label: 'Product Details'},
+                  name: 'Product',
                   component: ProductO
                 },
                 {
@@ -117,8 +120,28 @@ export default new Router({
 
             {
               path: '/sites',
-              name: 'Sites',
-              component: Sites
+              meta: { label: 'Sites'},
+              component: {
+                render (c) { return c('router-view') }
+              },
+              children:[
+                {
+                  path: '',
+                  component: Sites
+                },
+                {
+                  path: '/sites/:siteId',
+                  meta: { label: 'Site Details'},
+                  name: 'Sites',
+                  component: SiteO
+                },
+                {
+                  path:'/createsite',
+                  meta: { label: 'Create Site'},
+                  name: 'Create Site',
+                  component: CreateSite
+                },
+              ]
             },
           ]
         },
