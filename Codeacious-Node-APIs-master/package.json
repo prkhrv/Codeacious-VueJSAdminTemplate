@@ -1,0 +1,26 @@
+{
+  "name": "nodeuserapi",
+  "version": "1.0.0",
+  "description": "RESTapiforcreatinguser",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "author": "PrakharVarshney",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^1.18.9"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "image-downloader": "^3.4.2",
+    "mongoose": "^5.4.4",
+    "mongoose-type-url": "^1.0.5",
+    "request": "^2.88.0"
+  },
+  "engines": {
+    "node": "10.7.0"
+  }
+}

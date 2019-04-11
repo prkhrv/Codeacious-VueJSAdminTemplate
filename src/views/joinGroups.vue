@@ -1,76 +1,27 @@
 <template>
   <b-row>
       <b-col md="12">
+        <b-card
+            header-tag="header"
+            footer-tag="footer">
+            <div slot="header">
+              <i class="fa fa-align-justify"></i><strong>Chat Groups </strong> <small> Click to update/delete</small>
+            </div>
 
+            <b-list-group v-for="j of join" :key="j._id">
+              <b-list-group-item :href="`join/${j._id}`"  class="flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">{{j.username}}</h5>
+                  <small>{{j.room_code}}</small>
+                </div>
+                <p class="mb-1">
+                  {{j.room_id}}
+                </p>
+                <!-- <small>{{chat.UPC_code}}</small> -->
+              </b-list-group-item>
+            </b-list-group>
+          </b-card>
 
-
-
-        <b-card>
-          <div slot="header">
-            <strong>Create</strong> Site
-          </div>
-          <b-form action="site" v-on:submit.prevent="sendData">
-          <b-form-group
-            description="The Site full URL."
-            label="Site URL"
-            label-for="basicName"
-            :label-cols="3"
-            :horizontal="true">
-            <b-form-input id="basicName" v-model="input.url" type="text" autocomplete="name" placeholder="Enter the URL" required ></b-form-input>
-          </b-form-group>
-          <b-form-group
-            description="The Site full URL."
-            label="Site Name/ID"
-            label-for="basicName"
-            :label-cols="3"
-            :horizontal="true">
-            <b-form-input id="basicName" v-model="input.siteid" type="text" autocomplete="name" placeholder="Enter the Site ID" required ></b-form-input>
-          </b-form-group>
-          <b-form-group
-            description="The Owner of the Site"
-            label="Owner"
-            label-for="basicText"
-            :label-cols="3"
-            :horizontal="true">
-            <b-form-input id="basicText" v-model="input.Owner" type="text"></b-form-input>
-          </b-form-group>
-          <b-form-group
-            label="Group Chat Allowed"
-            label-for="basicSelect"
-            :label-cols="3"
-            :horizontal="true">
-            <b-form-select id="basicSelect"
-              :plain="true"
-              :options="['Please select','yes', 'no']"
-              value="Please select" v-model="input.Group_Chat_Allowed" >
-            </b-form-select>
-          </b-form-group>
-
-          <b-form-group
-            label="Number of Users Allowed"
-            label-for="basicTextarea"
-            :label-cols="3"
-            :horizontal="true">
-            <b-form-input v-model="input.Number_of_users" id="basicTextarea" :textarea="true" :rows="9" placeholder="Max Users Allowed"></b-form-input>
-          </b-form-group>
-          <b-form-group
-            label="Number of Messages Allowed"
-            label-for="basicTextarea"
-            :label-cols="3"
-            :horizontal="true">
-            <b-form-input v-model="input.Max_messages_Allowed" id="basicTextarea" :textarea="true" :rows="9" placeholder="Max Messages Allowed"></b-form-input>
-          </b-form-group>
-
-           <div slot="footer">
-              <b-button  type="submit" size="sm" variant="primary"><i class="fa fa-dot-circle-o"></i> Submit</b-button>
-              <router-link :to="{ path: '/sites',}">
-              <b-button type="reset" size="sm" variant="danger"><i class="fa fa-ban"></i> Reset</b-button>
-              </router-link>
-
-
-
-
-          </div>
           </b-form>
         </b-card>
         </b-col>
@@ -87,11 +38,8 @@
   import MainChartExample from './dashboard/MainChartExample'
   import SocialBoxChartExample from './dashboard/SocialBoxChartExample'
   import CalloutChartExample from './dashboard/CalloutChartExample'
-
   var link = window.location.href
   var key = link.split("8080",24).pop()
-
-
 export default {
   name: 'dashboard',
   components: {
@@ -107,19 +55,9 @@ export default {
   data: function () {
     return {
       selected: 'Month',
-      posts: [],
-      resp: [],
+      join: [],
       errors: [],
-      input: {
-                    url: "",
-                    siteid: "",
-                    Owner: "",
-                    Group_Chat_Allowed: "",
-                    Max_messages_Allowed: "",
-                    Number_of_users: "",
-
-                },
-                key: "",
+      key: "",
       tableItems: [
         {
           avatar: { url: 'img/avatars/1.jpg', status: 'success' },
@@ -196,8 +134,8 @@ export default {
     }
   },
   async mounted() {
-    axios.get("https://selacious-cloud-siteapi.herokuapp.com/products")
-    .then(response => {this.posts = response.data})
+    axios.get("https://selacious-cloud-siteapi.herokuapp.com/join")
+    .then(response => {this.join = response.data})
   },
   methods: {
     variant (value) {
@@ -216,17 +154,8 @@ export default {
     flag (value) {
       return 'flag-icon flag-icon-' + value
     },
-
-      async sendData() {
-            axios.post("https://selacious-cloud-siteapi.herokuapp.com/sites/",this.input).then((response) =>{
-              console.log(response);
-              this.$router.push("/sites");
-            });
-      }
-
   }
 }
-
 </script>
 
 <style>

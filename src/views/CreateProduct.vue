@@ -109,6 +109,10 @@
 
            <div slot="footer">
               <b-button  type="submit" size="sm" variant="primary"><i class="fa fa-dot-circle-o"></i> Submit</b-button>
+              <router-link :to="{ path: '/product',}">
+              <b-button type="reset" size="sm" variant="danger"><i class="fa fa-ban"></i> Reset</b-button>
+              </router-link>
+
 
 
           </div>

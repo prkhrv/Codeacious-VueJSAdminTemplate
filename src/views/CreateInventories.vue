@@ -1,87 +1,108 @@
 <template>
   <b-row>
       <b-col md="12">
-        <b-card
-            header-tag="header"
-            footer-tag="footer">
-            <div slot="header">
-              <i class="fa fa-align-justify"></i><strong>Site</strong>
-            </div>
-              <b-list-group-item href="#"  class="flex-column align-items-start">
-                <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1">{{posts.siteid}}</h5>
-                  <small>{{posts.Owner}}</small>
-                </div>
-                <p class="mb-1">
-                  {{posts.url}}
-                </p>
-              </b-list-group-item>
-            </b-list-group>
-          </b-card>
+
+
 
 
         <b-card>
-          <div slot="header">
-            <strong>Update/Delete</strong> Site
-          </div>
-          <b-form v-on:submit.prevent="updateData">
+          <b-form action="inventories" v-on:submit.prevent="sendData">
+            <div slot="header">
+              <strong>Create</strong> Inventory
+            </div>
             <b-form-group
-              description="The Site full URL."
-              label="Site URL"
-              label-for="basicName"
-              :label-cols="3"
-              :horizontal="true">
-              <b-form-input id="basicName" v-model="posts.url" type="text" autocomplete="name" placeholder="Enter the URL" required ></b-form-input>
-            </b-form-group>
-            <b-form-group
-              description="The Site full URL."
-              label="Site Name/ID"
-              label-for="basicName"
-              :label-cols="3"
-              :horizontal="true">
-              <b-form-input id="basicName" v-model="posts.siteid" type="text" autocomplete="name" placeholder="Enter the Site ID" required ></b-form-input>
-            </b-form-group>
-            <b-form-group
-              description="The Owner of the Site"
-              label="Owner"
+              description="Enter the User Id"
+              label="User Id"
               label-for="basicText"
               :label-cols="3"
               :horizontal="true">
-              <b-form-input id="basicText" v-model="posts.Owner" type="text"></b-form-input>
+
+
+
+              <cool-select
+                v-model="input.seller"
+                :items="items"
+                :loading="loading"
+                item-text="name"
+                placeholder="Enter The User ID"
+                disable-filtering-by-search
+                @search="onSearch"
+                >
+              </cool-select>
             </b-form-group>
             <b-form-group
-              label="Group Chat Allowed"
-              label-for="basicSelect"
+              description="Enter the Product Id"
+              label="Product Id"
+              label-for="basicText"
               :label-cols="3"
               :horizontal="true">
-              <b-form-select id="basicSelect"
-                :plain="true"
-                :options="[posts.Group_Chat_Allowed,checkChat(posts.Group_Chat_Allowed)]"
-                v-model="posts.Group_Chat_Allowed" >
-                v-model="posts.Group_Chat_Allowed" >
-              </b-form-select>
+              <b-form-input id="basicText" v-model="input.product_id" type="text"></b-form-input>
+            </b-form-group>
+            <b-form-group
+              description="Expiration Date of the Product"
+              label="Expiration Date"
+              label-for="basicText"
+              :label-cols="3"
+              :horizontal="true">
+              <b-form-input id="basicText" v-model="input.expiry_date" type="text"></b-form-input>
+            </b-form-group>
+            <b-form-group
+              description="Batch Number"
+              label="Batch No."
+              label-for="basicText"
+              :label-cols="3"
+              :horizontal="true">
+              <b-form-input id="basicText" v-model="input.Batch_No" type="text"></b-form-input>
+            </b-form-group>
+            <b-form-group
+              description="UPC Code"
+              label="UPC Code"
+              label-for="basicText"
+              :label-cols="3"
+              :horizontal="true">
+              <b-form-input id="basicText" v-model="input.UPC_code" type="text"></b-form-input>
+            </b-form-group>
+            <b-form-group
+              description="The Shelf Life of the Product"
+              label="Shelf Life"
+              label-for="basicText"
+              :label-cols="3"
+              :horizontal="true">
+              <b-form-input id="basicText" v-model="input.shelf_life" type="text"></b-form-input>
+            </b-form-group>
+            <b-form-group
+              description="Status of the Product"
+              label="Product Status"
+              label-for="basicText"
+              :label-cols="3"
+              :horizontal="true">
+              <b-form-input id="basicText" v-model="input.status" type="text"></b-form-input>
+            </b-form-group>
+            <b-form-group
+              description="Warehouse where the Product is Currently"
+              label="Warehouse"
+              label-for="basicText"
+              :label-cols="3"
+              :horizontal="true">
+              <b-form-input id="basicText" v-model="input.warehouse" type="text"></b-form-input>
             </b-form-group>
 
-            <b-form-group
-              label="Number of Users Allowed"
-              label-for="basicTextarea"
-              :label-cols="3"
-              :horizontal="true">
-              <b-form-input v-model="posts.Number_of_users" id="basicTextarea" :textarea="true" :rows="9" placeholder="Max Users Allowed"></b-form-input>
-            </b-form-group>
-            <b-form-group
-              label="Number of Messages Allowed"
-              label-for="basicTextarea"
-              :label-cols="3"
-              :horizontal="true">
-              <b-form-input v-model="posts.Max_messages_Allowed" id="basicTextarea" :textarea="true" :rows="9" placeholder="Max Messages Allowed"></b-form-input>
-            </b-form-group>
+             <div slot="footer">
+                <b-button  type="submit" size="sm" variant="primary"><i class="fa fa-dot-circle-o"></i> Submit</b-button>
+                <router-link :to="{ path: '/inventories',}">
+                <b-button type="reset" size="sm" variant="danger"><i class="fa fa-ban"></i> Reset</b-button>
+                </router-link>
 
-          <div slot="footer">
-            <b-button type="submit" size="sm" variant="primary"><i class="fa fa-dot-circle-o"></i> Submit</b-button>
-            <b-button v-on:click="delData()" type="submit" size="sm" variant="danger"><i class="fa fa-ban"></i> Delete</b-button>
-          </div>
+
+            </div>
           </b-form>
+
+
+
+
+
+
+
         </b-card>
         </b-col>
     </b-row>
@@ -97,11 +118,9 @@
   import MainChartExample from './dashboard/MainChartExample'
   import SocialBoxChartExample from './dashboard/SocialBoxChartExample'
   import CalloutChartExample from './dashboard/CalloutChartExample'
-
+  import { CoolSelect } from 'vue-cool-select'
   var link = window.location.href
-  var key = link.split("sites/",24).pop()
-  console.log(key)
-
+  var key = link.split("8080",24).pop()
 export default {
   name: 'dashboard',
   components: {
@@ -112,26 +131,31 @@ export default {
     CardBarChartExample,
     MainChartExample,
     SocialBoxChartExample,
-    CalloutChartExample
+    CalloutChartExample,
+    CoolSelect,
   },
   data: function () {
     return {
-      selected: 'Month',
-       val:"",
-      // posts: [],
+      selected: null,
+      items: [],
+      loading: false,
+      timeoutId: null,
+      noData: false,
+      myvals:[],
+      inventorys: [],
+      resp: [],
       errors: [],
-      posts: {
-                    product_name: "",
-                    subtitle: "",
-                    short_description: "",
-                    long_description: "",
-                    price: "",
-                    keywords: "",
-                    search_keywords:"",
-                    _id: key
-
+      input: {
+                    seller: "",
+                    product_id: "",
+                    expiry_date: "",
+                    Batch_No: "",
+                    UPC_code: "",
+                    shelf_life: "",
+                    status:"",
+                    warehouse:""
                 },
-                response: "",
+                key: "",
       tableItems: [
         {
           avatar: { url: 'img/avatars/1.jpg', status: 'success' },
@@ -208,20 +232,11 @@ export default {
     }
   },
   async mounted() {
-    axios.get(`https://selacious-cloud-siteapi.herokuapp.com/sites/${key}`)
-    .then(response => {this.posts = response.data})
+    axios.get("https://selacious-cloud-siteapi.herokuapp.com/inventories")
+    .then(response => {this.inventorys = response.data})
   },
+
   methods: {
-    checkChat (val) {
-      let $variab
-      if(val == "yes"){
-        $variab = "no"
-      }
-      else {
-        $variab = "yes"
-      }
-      return $variab
-    },
     variant (value) {
       let $variant
       if (value <= 25) {
@@ -238,23 +253,41 @@ export default {
     flag (value) {
       return 'flag-icon flag-icon-' + value
     },
-    async updateData() {
-      axios.put(`https://selacious-cloud-siteapi.herokuapp.com/sites/${key}`,this.posts).then((response) =>{
-        console.log(response);
-        this.$router.push("/sites");
-      });
-    },
-    async delData() {
-                axios({ method: "DELETE", "url": `https://selacious-cloud-siteapi.herokuapp.com/sites/${key}`, "data": this.posts, "headers": { 'Content-Type': 'application/x-www-form-urlencoded' } }).then(result => {
-                    this.posts = result.data;
-                    this.$router.push("/sites");
-                }, error => {
-                    console.error(error);
-                });
+      async sendData() {
+            console.log("trigger");
+            axios.post("https://selacious-cloud-siteapi.herokuapp.com/inventories/",this.input).then((response) =>{
+              console.log(response);
+              this.$router.push("/inventories");
+            });
+      },
+      async onSearch(search) {
+      const lettersLimit = 2;
+
+      this.noData = false;
+      if (search.length < lettersLimit) {
+        this.items = [];
+        this.loading = false;
+        return;
+      }
+      this.loading = true;
+
+      clearTimeout(this.timeoutId);
+      this.timeoutId = setTimeout(async () => {
+        const response = await fetch(
+          `https://selacious-cloud-siteapi.herokuapp.com/users`
+        );
+
+        this.items = await response.json();
+        this.loading = false;
+
+        if (!this.items.length) this.noData = true;
+
+        console.log(this.items);
+      }, 500);
     }
+
   }
 }
-
 </script>
 
 <style>

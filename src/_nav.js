@@ -31,12 +31,22 @@ export default {
     {
       name: 'Users',
       url: '/users',
-      icon: 'icon-globe'
+      icon: 'icon-user'
     },
     {
       name: 'Inventories',
       url: '/inventories',
-      icon: 'icon-globe'
+      icon: 'icon-grid'
+    },
+    {
+      name: 'Chat Groups',
+      url: '/chatgroups',
+      icon: 'icon-bubble'
+    },
+    {
+      name:'Join Requests',
+      url: '/join',
+      icon: 'icon-user-follow ',
     },
     {
       title: true,

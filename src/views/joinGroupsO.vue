@@ -5,18 +5,18 @@
             header-tag="header"
             footer-tag="footer">
             <div slot="header">
-              <i class="fa fa-align-justify"></i><strong>Product</strong>
+              <i class="fa fa-align-justify"></i><strong>Join Requests</strong>
             </div>
             <b-list-group>
               <b-list-group-item href="#"  class="flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1">{{posts.product_name}}</h5>
-                  <small>{{posts.price}}</small>
+                  <h5 class="mb-1">{{join.username}}</h5>
+                  <small>{{join.room_code}}</small>
                 </div>
                 <p class="mb-1">
-                  {{posts.long_description}}
+                  {{join.room_id}}
                 </p>
-                <small>{{posts.short_description}}</small>
+                <!-- <small>{{inventorys.UPC_code}}</small> -->
               </b-list-group-item>
             </b-list-group>
           </b-card>
@@ -24,111 +24,14 @@
 
         <b-card>
           <div slot="header">
-            <strong>Update/Delete</strong> Product
+            <strong>Accept/Delete</strong> Inventory
           </div>
           <b-form v-on:submit.prevent="updateData">
-          <b-form-group
-            description="The products full name."
-            label="Product Name"
-            label-for="basicName"
-            :label-cols="3"
-            :horizontal="true">
-            <b-form-input id="basicName" v-model="posts.product_name" :value="posts.product_name" type="text" autocomplete="name"></b-form-input>
-          </b-form-group>
-          <b-form-group
-            description="The price of the product"
-            label="Price"
-            label-for="basicText"
-            :label-cols="3"
-            :horizontal="true">
-            <b-form-input id="basicText" v-model="posts.price" :value="posts.price" type="text"></b-form-input>
-          </b-form-group>
-          <b-form-group
-            description="A short description of the product"
-            label="Short Description"
-            label-for="basicText"
-            :label-cols="3"
-            :horizontal="true">
-            <b-form-input id="basicText" v-model="posts.short_description" :value="posts.short_description" type="text"></b-form-input>
-          </b-form-group>
-
-          <b-form-group
-            label="Detailed Description"
-            label-for="basicTextarea"
-            :label-cols="3"
-            :horizontal="true">
-            <b-form-input v-model="posts.long_description" :value="posts.long_description" id="basicTextarea" :textarea="true" :rows="9" placeholder="Detailed Description of the Product"></b-form-input>
-          </b-form-group>
-
-
-          <b-form-group
-            label="Keywords"
-            label-for="basicMultiSelect"
-            :label-cols="3"
-            :horizontal="true">
-            <b-form-select id="basicMultiSelect"
-              v-model="posts.search_keywords"
-              :plain="true"
-              :multiple="true"
-              :options="[
-                {
-                  text: 'Please select some item',
-                  value: null
-                },
-                {
-                  text: 'This is First option',
-                  value: 'a'
-                }, {
-                  text: 'Default Selected Option',
-                  value: 'b'
-                }, {
-                  text: 'This is another option',
-                  value: 'c'
-                }, {
-                  text: 'This one is disabled',
-                  value: 'd',
-                  disabled: true
-                }]"
-              :value="[null,'c']">
-            </b-form-select>
-          </b-form-group>
-          <b-form-group
-            label="Search Keywords"
-            label-for="basicMultiSelect"
-            :label-cols="3"
-            :horizontal="true">
-            <b-form-select id="basicMultiSelect"
-              v-model="posts.keywords"
-              :plain="true"
-              :multiple="true"
-              :options="[
-                {
-                  text: 'Please select some item',
-                  value: null
-                },
-                {
-                  text: 'This is First option',
-                  value: 'a'
-                }, {
-                  text: 'Default Selected Option',
-                  value: 'b'
-                }, {
-                  text: 'This is another option',
-                  value: 'c'
-                }, {
-                  text: 'This one is disabled',
-                  value: 'd',
-                  disabled: true
-                }]"
-              :value="[null,'c']">
-            </b-form-select>
-          </b-form-group>
-
           <div slot="footer">
-            <b-button type="submit" size="sm" variant="primary"><i class="fa fa-dot-circle-o"></i> Submit</b-button>
-            <b-button v-on:click="delData()" type="submit" size="sm" variant="danger"><i class="fa fa-ban"></i> Delete</b-button>
+            <b-button v-on:click="delData()" type="submit" size="sm" variant="primary"><i class="fa fa-dot-circle-o"></i>Accept</b-button>
           </div>
           </b-form>
+            <b-button v-on:click="delData()" type="submit" size="sm" variant="danger"><i class="fa fa-ban"></i> Reject</b-button>
         </b-card>
         </b-col>
     </b-row>
@@ -144,11 +47,10 @@
   import MainChartExample from './dashboard/MainChartExample'
   import SocialBoxChartExample from './dashboard/SocialBoxChartExample'
   import CalloutChartExample from './dashboard/CalloutChartExample'
-
+  import { CoolSelect } from 'vue-cool-select'
   var link = window.location.href
-  var key = link.split("product/",24).pop()
+  var key = link.split("join/",24).pop()
   console.log(key)
-
 export default {
   name: 'dashboard',
   components: {
@@ -159,24 +61,30 @@ export default {
     CardBarChartExample,
     MainChartExample,
     SocialBoxChartExample,
-    CalloutChartExample
+    CalloutChartExample,
+    CoolSelect,
   },
   data: function () {
     return {
-      selected: 'Month',
-      // posts: [],
+      selected: null,
+      items: [],
+      items2:[],
+      items3:[],
+      items4:[],
+      test:[],
+      loading: false,
+      timeoutId: null,
+      noData: false,
+      // inventory: [],
       errors: [],
-      posts: {
-                    product_name: "",
-                    subtitle: "",
-                    short_description: "",
-                    long_description: "",
-                    price: "",
-                    keywords: "",
-                    search_keywords:"",
-                    _id: key
-
-                },
+      join: {
+        username: "",
+        room_code: "",
+        user: "",
+        room_id: "",
+        user_token: "",
+        _id: key,
+      },
                 response: "",
       tableItems: [
         {
@@ -254,9 +162,10 @@ export default {
     }
   },
   async mounted() {
-    axios.get(`https://selacious-cloud-siteapi.herokuapp.com/products/${key}`)
-    .then(response => {this.posts = response.data})
+    axios.get(`https://selacious-cloud-siteapi.herokuapp.com/join/${key}`)
+    .then(response => {this.join = response.data})
   },
+
   methods: {
     variant (value) {
       let $variant
@@ -274,23 +183,54 @@ export default {
     flag (value) {
       return 'flag-icon flag-icon-' + value
     },
-    async updateData() {
-      axios.put(`https://selacious-cloud-siteapi.herokuapp.com/products/${key}`,this.posts).then((response) =>{
-        console.log(response);
-        this.$router.push("/product");
-      });
-    },
     async delData() {
-                axios({ method: "DELETE", "url": `https://selacious-cloud-siteapi.herokuapp.com/products/${key}`, "data": this.posts, "headers": { 'Content-Type': 'application/x-www-form-urlencoded' } }).then(result => {
-                    this.posts = result.data;
-                    this.$router.push("/product");
+                axios({ method: "DELETE", "url": `https://selacious-cloud-siteapi.herokuapp.com/join/${key}`, "data": this.j, "headers": { 'Content-Type': 'application/x-www-form-urlencoded' } }).then(result => {
+                    this.join = result.data;
+                    this.$router.push("/join");
                 }, error => {
                     console.error(error);
                 });
-    }
+    },
+    async updateData() {
+
+      axios.post(`https://pv-chat-socket.herokuapp.com/app/send/notification/`,{user_token:this.join.user_token}).then((response) =>{
+        console.log(response);
+      });
+
+      axios.post(`https://selacious-cloud-siteapi.herokuapp.com/chats/join/`,{_id:this.join.room_id,allowed_users:this.join.user}).then((response) =>{
+        console.log(response);
+
+        this.$router.push("/join");
+      });
+    },
+
+
+
+
+adduser: function () {
+this.chats.allowed_users.push("");
+},
+deleteuser: function(index) {
+this.chats.allowed_users.splice(index, 1);
+this.test.allowed_users.splice(index, 1);
+
+},
+addadmin: function () {
+this.chats.group_admins.push("");
+},
+deleteadmin: function(index) {
+this.chats.group_admins.splice(index, 1);
+this.test.group_admins.splice(index, 1);
+},
+addcontact: function () {
+this.chats.emergency_contacts.push("");
+},
+deletecontact: function(index) {
+this.chats.emergency_contacts.splice(index, 1);
+this.test.emergency_contacts.splice(index, 1);
+},
   }
 }
-
 </script>
 
 <style>

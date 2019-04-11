@@ -8,11 +8,15 @@ import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 import App from './App'
 import router from './router'
+import VueSelect from "vue-cool-select";
 
 // todo
 // cssVars()
 
 Vue.use(BootstrapVue)
+Vue.use(VueSelect, {
+  theme: 'bootstrap' // "bootstrap" or 'material-design'
+});
 
 /* eslint-disable no-new */
 new Vue({

@@ -13,6 +13,26 @@ const Sites = () => import('@/views/Sites')
 const CreateSite = () => import('@/views/CreateSite')
 const CreateProduct = () => import('@/views/CreateProduct')
 
+const MyUsers = () => import('@/views/myUsers')
+const CreateUser = () => import('@/views/CreateUser')
+const MyUsersO = ()=> import('@/views/myUsersO')
+
+
+const Inventories = ()=> import('@/views/Inventories')
+const CreateInventory = () => import('@/views/CreateInventories')
+const InventoriesO = () => import('@/views/InventoriesO')
+
+//Chat Groups
+const ChatGroups = ()=>  import('@/views/ChatGroups')
+const CreateChatGroups = ()=>  import('@/views/CreateChatGroups')
+const ChatGroupsO = ()=>  import('@/views/ChatGroupsO')
+
+
+//Join groups
+const JoinGroups = ()=> import('@/views/joinGroups')
+const JoinGroupsO = ()=> import('@/views/joinGroupsO')
+
+
 
 
 
@@ -143,6 +163,76 @@ export default new Router({
                 },
               ]
             },
+            {
+              path: '/inventories',
+              meta: { label: 'Inventories'},
+              component: {
+                render (c) { return c('router-view') }
+              },
+              children:[
+                {
+                  path: '',
+                  component: Inventories
+                },
+                {
+                  path: '/inventories/:inventoryId',
+                  meta: { label: 'Inventory Details'},
+                  name: 'Inventories',
+                  component: InventoriesO
+                },
+                {
+                  path:'/createinventories',
+                  meta: { label: 'Create Inventory'},
+                  name: 'Create Inventory',
+                  component: CreateInventory
+                },
+              ]
+            },
+            {
+              path: '/chatgroups',
+              meta: { label: 'Chat Groups'},
+              component: {
+                render (c) { return c('router-view') }
+              },
+              children:[
+                {
+                  path: '',
+                  component: ChatGroups
+                },
+                {
+                  path: '/chatgroups/:chatgroupId',
+                  meta: { label: 'Chat Group Details'},
+                  name: 'Chat Groups',
+                  component: ChatGroupsO
+                },
+                {
+                  path:'/createchatgroups',
+                  meta: { label: 'Create Chat Groups'},
+                  name: 'Create Chat Groups',
+                  component: CreateChatGroups
+                },
+              ]
+            },
+            {
+              path: '/join',
+              meta: { label: 'Join Requests'},
+              component: {
+                render (c) { return c('router-view') }
+              },
+              children:[
+                {
+                  path: '',
+                  component: JoinGroups,
+                },
+                {
+                  path: '/join/:joinId',
+                  meta: { label: 'Join Request Details'},
+                  name: 'Join Requests',
+                  component: JoinGroupsO,
+                },
+              ]
+
+            },
           ]
         },
 
@@ -185,13 +275,18 @@ export default new Router({
           children: [
             {
               path: '',
-              component: Users,
+              component: MyUsers,
             },
             {
-              path: ':id',
+              path:'/users/:userid',
               meta: { label: 'User Details'},
-              name: 'User',
-              component: User,
+              component: MyUsersO
+            },
+            {
+              path: '/createuser',
+              meta: { label: 'Create User'},
+              name: 'Create User',
+              component: CreateUser,
             },
           ]
         },

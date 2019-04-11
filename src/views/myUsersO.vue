@@ -5,18 +5,16 @@
             header-tag="header"
             footer-tag="footer">
             <div slot="header">
-              <i class="fa fa-align-justify"></i><strong>Product</strong>
+              <i class="fa fa-align-justify"></i><strong>Site</strong>
             </div>
-            <b-list-group>
               <b-list-group-item href="#"  class="flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1">{{posts.product_name}}</h5>
-                  <small>{{posts.price}}</small>
+                  <h5 class="mb-1">{{posts.name}}</h5>
+                  <small>{{posts.email}}</small>
                 </div>
                 <p class="mb-1">
-                  {{posts.long_description}}
+                  {{posts.email}}
                 </p>
-                <small>{{posts.short_description}}</small>
               </b-list-group-item>
             </b-list-group>
           </b-card>
@@ -24,105 +22,66 @@
 
         <b-card>
           <div slot="header">
-            <strong>Update/Delete</strong> Product
+            <strong>Update/Delete</strong> User
           </div>
           <b-form v-on:submit.prevent="updateData">
-          <b-form-group
-            description="The products full name."
-            label="Product Name"
-            label-for="basicName"
-            :label-cols="3"
-            :horizontal="true">
-            <b-form-input id="basicName" v-model="posts.product_name" :value="posts.product_name" type="text" autocomplete="name"></b-form-input>
-          </b-form-group>
-          <b-form-group
-            description="The price of the product"
-            label="Price"
-            label-for="basicText"
-            :label-cols="3"
-            :horizontal="true">
-            <b-form-input id="basicText" v-model="posts.price" :value="posts.price" type="text"></b-form-input>
-          </b-form-group>
-          <b-form-group
-            description="A short description of the product"
-            label="Short Description"
-            label-for="basicText"
-            :label-cols="3"
-            :horizontal="true">
-            <b-form-input id="basicText" v-model="posts.short_description" :value="posts.short_description" type="text"></b-form-input>
-          </b-form-group>
-
-          <b-form-group
-            label="Detailed Description"
-            label-for="basicTextarea"
-            :label-cols="3"
-            :horizontal="true">
-            <b-form-input v-model="posts.long_description" :value="posts.long_description" id="basicTextarea" :textarea="true" :rows="9" placeholder="Detailed Description of the Product"></b-form-input>
-          </b-form-group>
-
-
-          <b-form-group
-            label="Keywords"
-            label-for="basicMultiSelect"
-            :label-cols="3"
-            :horizontal="true">
-            <b-form-select id="basicMultiSelect"
-              v-model="posts.search_keywords"
-              :plain="true"
-              :multiple="true"
-              :options="[
-                {
-                  text: 'Please select some item',
-                  value: null
-                },
-                {
-                  text: 'This is First option',
-                  value: 'a'
-                }, {
-                  text: 'Default Selected Option',
-                  value: 'b'
-                }, {
-                  text: 'This is another option',
-                  value: 'c'
-                }, {
-                  text: 'This one is disabled',
-                  value: 'd',
-                  disabled: true
-                }]"
-              :value="[null,'c']">
-            </b-form-select>
-          </b-form-group>
-          <b-form-group
-            label="Search Keywords"
-            label-for="basicMultiSelect"
-            :label-cols="3"
-            :horizontal="true">
-            <b-form-select id="basicMultiSelect"
-              v-model="posts.keywords"
-              :plain="true"
-              :multiple="true"
-              :options="[
-                {
-                  text: 'Please select some item',
-                  value: null
-                },
-                {
-                  text: 'This is First option',
-                  value: 'a'
-                }, {
-                  text: 'Default Selected Option',
-                  value: 'b'
-                }, {
-                  text: 'This is another option',
-                  value: 'c'
-                }, {
-                  text: 'This one is disabled',
-                  value: 'd',
-                  disabled: true
-                }]"
-              :value="[null,'c']">
-            </b-form-select>
-          </b-form-group>
+            <b-form-group
+              description="Enter the Name"
+              label="Name"
+              label-for="basicName"
+              :label-cols="3"
+              :horizontal="true">
+              <b-form-input id="basicName" v-model="posts.name" type="text" autocomplete="name"></b-form-input>
+            </b-form-group>
+            <b-form-group
+              label="Date of Birth" label-for="date"
+              :label-cols="3"
+              :horizontal="true">
+              <b-form-input type="date" v-model="posts.dob" id="date"></b-form-input>
+            </b-form-group>
+            <b-form-group
+              description="Email Id"
+              label="Email"
+              label-for="basicText"
+              :label-cols="3"
+              :horizontal="true">
+              <b-form-input id="basicText" v-model="posts.email" type="email"></b-form-input>
+            </b-form-group>
+            <b-form-group
+              description="Phone Number"
+              label="Phone No."
+              label-for="basicText"
+              :label-cols="3"
+              :horizontal="true">
+              <b-form-input id="basicText" v-model="posts.phone" type="text"></b-form-input>
+            </b-form-group>
+            <b-form-group
+              description="Link to the Profile Picture"
+              label="Profile Pic"
+              label-for="basicText"
+              :label-cols="3"
+              :horizontal="true">
+              <b-form-input id="basicText" v-model="posts.profile_pic" type="text"></b-form-input>
+            </b-form-group>
+            <b-form-group
+              label="User Category"
+              label-for="basicSelect"
+              :label-cols="3"
+              :horizontal="true">
+              <b-form-select id="basicSelect"
+                :plain="true"
+                :options="['Please select','Super Admin','Client','Seller','Staff','Manufacturer']"
+                value="Please select" v-model="posts.category" >
+              </b-form-select>
+            </b-form-group>
+            <b-form-group
+              description="Link to the Profile Picture"
+              label="Address"
+              label-for="basicText"
+              :label-cols="3"
+              :horizontal="true">
+              <b-form-input id="basicText" v-model="posts.address" type="text"></b-form-input>
+            </b-form-group>
 
           <div slot="footer">
             <b-button type="submit" size="sm" variant="primary"><i class="fa fa-dot-circle-o"></i> Submit</b-button>
@@ -146,7 +105,7 @@
   import CalloutChartExample from './dashboard/CalloutChartExample'
 
   var link = window.location.href
-  var key = link.split("product/",24).pop()
+  var key = link.split("users/",24).pop()
   console.log(key)
 
 export default {
@@ -167,15 +126,15 @@ export default {
       // posts: [],
       errors: [],
       posts: {
-                    product_name: "",
-                    subtitle: "",
-                    short_description: "",
-                    long_description: "",
-                    price: "",
-                    keywords: "",
-                    search_keywords:"",
-                    _id: key
-
+                name: "",
+                id: "",
+                dob: "",
+                email: "",
+                profile_pic: "",
+                phone: "",
+                category:"",
+                address:"",
+                _id: key
                 },
                 response: "",
       tableItems: [
@@ -254,7 +213,7 @@ export default {
     }
   },
   async mounted() {
-    axios.get(`https://selacious-cloud-siteapi.herokuapp.com/products/${key}`)
+    axios.get(`https://selacious-cloud-siteapi.herokuapp.com/users/${key}`)
     .then(response => {this.posts = response.data})
   },
   methods: {
@@ -275,15 +234,15 @@ export default {
       return 'flag-icon flag-icon-' + value
     },
     async updateData() {
-      axios.put(`https://selacious-cloud-siteapi.herokuapp.com/products/${key}`,this.posts).then((response) =>{
+      axios.put(`https://selacious-cloud-siteapi.herokuapp.com/users/${key}`,this.posts).then((response) =>{
         console.log(response);
-        this.$router.push("/product");
+        this.$router.push("/users");
       });
     },
     async delData() {
-                axios({ method: "DELETE", "url": `https://selacious-cloud-siteapi.herokuapp.com/products/${key}`, "data": this.posts, "headers": { 'Content-Type': 'application/x-www-form-urlencoded' } }).then(result => {
+                axios({ method: "DELETE", "url": `https://selacious-cloud-siteapi.herokuapp.com/users/${key}`, "data": this.posts, "headers": { 'Content-Type': 'application/x-www-form-urlencoded' } }).then(result => {
                     this.posts = result.data;
-                    this.$router.push("/product");
+                    this.$router.push("/users");
                 }, error => {
                     console.error(error);
                 });
